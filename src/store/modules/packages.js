@@ -52,8 +52,6 @@ export default {
       ctx.commit('changeLoading', false)
     },
     changePage: (ctx, page) => {
-      console.log(ctx, page)
-      // ctx.commit('fetchPackages', )
       const { searchValue, currentPage } = ctx.state
       ctx.dispatch('fetchPackages', {
         searchValue,

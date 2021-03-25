@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Search from '@/components/header/Search.vue'
 import Loader from '@/components/common/Loader.vue'
 import Content from '@/components/content/Content.vue'
@@ -20,7 +20,10 @@ export default {
   computed: mapGetters(['loadingPackages']),
   methods: {
     ...mapActions(['fetchPackages', 'changePage']),
+    ...mapMutations(['updatePage']),
     onSearchSubmit: function (searchValue) {
+      if (this.loadingPackages) return
+      this.updatePage(1) // reset current page
       if (searchValue.trim()) {
         this.fetchPackages({ searchValue })
       }
