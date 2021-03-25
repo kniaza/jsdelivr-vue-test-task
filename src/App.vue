@@ -1,19 +1,34 @@
 <template>
   <div id="app">
-    <b-container fluid="md" class="border my-5 p-5 w-50">
-      <Search />
+    <b-container fluid="md" class="border rounded my-5 p-5 w-50">
+      <Search @search-submit="onSearchSubmit" />
       <hr />
-      <Loader />
+      <Loader v-if="loadingPackages" />
+      <Content v-else @change-page="onChangePage" />
     </b-container>
   </div>
 </template>
 
 <script>
-import Search from './components/header/Search.vue'
-import Loader from './components/common/Loader.vue'
+import { mapActions, mapGetters } from 'vuex'
+import Search from '@/components/header/Search.vue'
+import Loader from '@/components/common/Loader.vue'
+import Content from '@/components/content/Content.vue'
 export default {
   name: 'App',
-  components: { Search, Loader },
+  components: { Search, Loader, Content },
+  computed: mapGetters(['loadingPackages']),
+  methods: {
+    ...mapActions(['fetchPackages', 'changePage']),
+    onSearchSubmit: function (searchValue) {
+      if (searchValue.trim()) {
+        this.fetchPackages({ searchValue })
+      }
+    },
+    onChangePage: function (page) {
+      this.changePage(page)
+    },
+  },
 }
 </script>
 

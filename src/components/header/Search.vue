@@ -3,7 +3,7 @@
     <b-form @submit.prevent="onSubmit" class="d-flex">
       <b-form-input
         id="search-input"
-        :model="search"
+        v-model="search"
         type="text"
         placeholder="Search package..."
       ></b-form-input>
@@ -21,8 +21,7 @@ export default {
     search: '',
   }),
   methods: {
-    onSubmit: () => {
-      console.log(JSON.stringify(this.search))
+    onSubmit: function () {
       this.$emit('search-submit', this.search)
     },
   },
