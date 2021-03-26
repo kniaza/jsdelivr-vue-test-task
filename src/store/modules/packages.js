@@ -38,7 +38,6 @@ export default {
       try {
         const url = `http://registry.npmjs.org/-/v1/search?text=${searchValue}&size=${limit}&from=${offset}`
         const res = await axios.get(url)
-        console.log(res)
 
         const { objects, total } = res.data
         ctx.commit(

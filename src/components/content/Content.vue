@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-wrapper">
     <h4 v-if="packages === null" class="text-center">
       Enter package name in search field
     </h4>
