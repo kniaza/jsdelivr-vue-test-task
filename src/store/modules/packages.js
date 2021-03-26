@@ -6,7 +6,7 @@ export default {
   state: {
     searchValue: '',
     loadingPackages: false,
-    packages: [],
+    packages: null,
     currentPage: 1,
     totalFoundedPackages: 0,
   },
