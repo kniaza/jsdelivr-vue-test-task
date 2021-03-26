@@ -1,22 +1,21 @@
 <template>
   <div>
-    <h4 v-if="packages.length === 0" class="text-center">
+    <h4 v-if="packages === null" class="text-center">
+      Enter package name in search field
+    </h4>
+    <h4 v-else-if="packages.length === 0" class="text-center">
       Could't find the package
     </h4>
     <div v-else>
-      <div v-for="(packageItem, index) in packages" :key="index">
-        <div class="border rounded mb-2 px-3 py-2">
+      <div
+        v-for="(packageItem, index) in packages"
+        @click="handleOpenDialog(packageItem)"
+        :key="index"
+      >
+        <div class="item rounded mb-2 px-3 py-2">
           <h4 class="mb-1">{{ packageItem.name }}</h4>
           <p class="sub_title">{{ packageItem.description }}</p>
-          <div class="tags">
-            <span
-              class="tag"
-              v-for="(keyword, index) in packageItem.keywords"
-              :key="index"
-            >
-              {{ keyword }}
-            </span>
-          </div>
+          <Tags :tags="packageItem.keywords" />
         </div>
         <div></div>
       </div>
@@ -37,8 +36,10 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import Tags from '@/components/common/Tags.vue'
 import { PAGE_LIMIT } from '@/store/modules/packages'
 export default {
+  components: { Tags },
   computed: {
     ...mapGetters(['packages', 'currentPage', 'totalFoundedPackages']),
   },
@@ -55,26 +56,25 @@ export default {
       this.updatePage(page)
       this.$emit('change-page', page)
     },
+    handleOpenDialog: function (packageData) {
+      this.$emit('open-dialog', packageData)
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
+.item {
+  cursor: pointer;
+  transition: 0.2s ease-in;
+  border: 1px solid #dee2e6;
+
+  &:hover {
+    border-color: var(--blue);
+  }
+}
 .sub_title {
   font-size: 0.8rem;
   color: #555555;
-}
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  .tag {
-    border: 1px solid #cccccc50;
-    background: #cccccc30;
-    border-radius: 10px;
-    padding: 0.3rem 0.7rem;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-  }
 }
 </style>
